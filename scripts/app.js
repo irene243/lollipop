@@ -55,3 +55,4 @@ document.addEventListener('DOMContentLoaded', () => {
 	function dragDrop(){
 		console.log (this.id,'dragdrop')
 	}
+})
