@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const grid= document.querySelector('.grid')
-	const width= 8
-	const squares= []
+	const grid= document.querySelector('.grid');
+	const width= 8;
+	const squares= [];
 	
+		
 	const candyColors = [
 		'red',
-		'orange',
-		'yellow',
-		'green',
-		'blue',
-		'purple',
+		'#EDCF16',
+		'#39E7EC',
+		'#3DA87',
+		'#DC2A6D',
+		'#853ACf',
 	]
 	
 	function createBoard(){
@@ -23,7 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
 			squares.push(square)
 		}
 	}
-	createBoard()
+	createBoard();
+	
+	//drag the candies
+	
+	let colorBeingDragged
+	let colorBeingReplaced
+	let squareIdBeingDragged
+	let squareIdBeingReplaced
 
 	squares.forEach(square=> square. addEventListener('dragstart', dragStart))
 	squares.forEach(square=> square. addEventListener('dragend', dragEnd))	
@@ -33,14 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	squares.forEach(square=> square. addEventListener('drop', dragDrop))
 
 	function dragStart(){
+		colorBeingDragged = this.style.backgroundColor
+		squareIdBeingDragged = parseInt(this.id)
+		console.log (colorBeingDragged)
 		console.log (this.id,'dragstart')
 	}
 	
-	function dragOver(){
+	function dragOver(e){
+		e.preventDefault()
 		console.log (this.id,'dragover')
 	}
 	
-	function dragEnter(){
+	function dragEnter(e){
+		e.preventDefault()
 		console.log (this.id,'dragenter')
 	}
 	
@@ -48,10 +61,36 @@ document.addEventListener('DOMContentLoaded', () => {
 		console.log (this.id,'dragleave')
 	}
 	
-	function dragEnd(){
-		console.log (this.id,'dragend')
-	}
 	
 	function dragDrop(){
 		console.log (this.id,'dragdrop')
+		colorBeingReplaced = this.style.backgroundColor
+		squareIdBeingReplaced = parseInt(this.id)
+		this.style.backgroundColor = colorBeingDragged
+		squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced
 	}
+	
+	
+	function dragEnd()	{
+		console.log (this.id,'dragend')
+		//what is a valid move
+		let validMoves =[ 
+			squareIdBeingDragged -1,
+			squareIdBeingDragged -width,
+			squareIdBeingDragged +1,
+			squareIdBeingDragged +width
+		]
+		validMoves = validMoves.includes (squareIdBeingReplaced)
+		
+		if (squareIdBeingReplaced && validMove){
+			squareIdBeingReplaced = null
+		}	else if (squareIdBeingReplaced && !validMove){
+			
+			
+		}
+		
+		
+		
+		
+	}	
+});
